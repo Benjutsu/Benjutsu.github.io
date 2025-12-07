@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Adventure Machine</title>
+	<link rel="icon" type="image/png" href="Madeon Adventure Machine Samples v2/Madeon - Adventure Deluxe.png?v=2" />
+	<link rel="apple-touch-icon" href="Madeon Adventure Machine Samples v2/Madeon - Adventure Deluxe.png" />
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<header class="am-topbar">
+		<h1 class="logo">Adventure Machine</h1>
+		<div class="right-tools">
+			<button id="togglePanel" class="tool-btn" title="Afficher/Masquer les contrôles">⚙️ Effets/Contrôle</button>
+			<button id="stopAll" class="stop-btn" title="Stopper tous les sons">Stop ✕</button>
+		</div>
+	</header>
+
+	<!-- Barre de progression du cycle (position dans le loop courant) -->
+	<div id="cycleProgress" aria-hidden="true">
+		<div id="cycleProgressFill"></div>
+	</div>
+
+	<!-- Visualiseurs 2D collés aux bords (gauche=drum, droite=bass) -->
+	<canvas id="vizDrum2D" aria-hidden="true"></canvas>
+	<canvas id="vizBass2D" aria-hidden="true"></canvas>
+
+	<!-- Panneau de contrôle des effets et options -->
+	<aside id="controlPanel" class="control-panel hidden">
+		<div class="panel-header">
+			<h2>🎛️ Contrôles</h2>
+			<button id="closePanel" class="close-btn">✕</button>
+		</div>
+
+		<!-- Section Effets -->
+		<section class="panel-section">
+			<h3>🎚️ Effets Audio</h3>
+			
+			<div class="control-group">
+				<label>Volume Master</label>
+				<input type="range" id="masterVolume" min="0" max="1" step="0.01" value="1" />
+				<span class="value-display" id="masterVolumeVal">100%</span>
+			</div>
+
+			<div class="control-group">
+				<label>🔊 Reverb</label>
+				<input type="range" id="reverbMix" min="0" max="1" step="0.01" value="0" />
+				<span class="value-display" id="reverbMixVal">0%</span>
+			</div>
+
+			<div class="control-group">
+				<label>⏱️ Delay</label>
+				<input type="range" id="delayMix" min="0" max="1" step="0.01" value="0" />
+				<span class="value-display" id="delayMixVal">0%</span>
+			</div>
+
+			<div class="control-group">
+				<label>Delay Time</label>
+				<input type="range" id="delayTime" min="0.05" max="1" step="0.01" value="0.3" />
+				<span class="value-display" id="delayTimeVal">300ms</span>
+			</div>
+
+			<div class="control-group">
+				<label>🎛️ Filtre (Low-pass)</label>
+				<input type="range" id="filterFreq" min="100" max="20000" step="10" value="20000" />
+				<span class="value-display" id="filterFreqVal">20kHz</span>
+			</div>
+
+			<div class="control-group">
+				<label>Filter Resonance</label>
+				<input type="range" id="filterQ" min="0.1" max="20" step="0.1" value="1" />
+				<span class="value-display" id="filterQVal">1.0</span>
+			</div>
+		</section>
+
+		<!-- Section Pitch/Speed -->
+		<section class="panel-section">
+			<h3>🎵 Pitch & Vitesse</h3>
+			
+			<div class="control-group">
+				<label>Pitch (demi-tons)</label>
+				<input type="range" id="pitchShift" min="-12" max="12" step="1" value="0" />
+				<span class="value-display" id="pitchShiftVal">0</span>
+			</div>
+
+			<div class="control-group">
+				<label>Vitesse</label>
+				<input type="range" id="playbackRate" min="0.5" max="2" step="0.05" value="1" />
+				<span class="value-display" id="playbackRateVal">1.0x</span>
+			</div>
+
+			<div class="control-row" style="margin-top: 0.75rem;">
+				<button id="resetEffects" class="reset-btn">🔄 Reset tous les effets</button>
+			</div>
+		</section>
+
+		<!-- Section Enregistrement -->
+		<section class="panel-section">
+			<h3>🎙️ Enregistrement</h3>
+			
+			<div class="control-row">
+				<button id="recBtn" class="rec-btn">⏺️ Enregistrer</button>
+				<span id="recStatus" class="rec-status"></span>
+			</div>
+			<div class="control-row">
+				<span id="recTime" class="rec-time">00:00</span>
+			</div>
+			<div id="recControls" class="rec-controls hidden">
+				<button id="stopRecBtn" class="rec-btn stop">⏹️ Arrêter</button>
+				<button id="downloadRecBtn" class="rec-btn download" disabled>💾 Télécharger WAV</button>
+			</div>
+		</section>
+
+		<!-- Section Presets -->
+		<section class="panel-section">
+			<h3>💾 Presets</h3>
+			
+			<div class="control-row">
+				<input type="text" id="presetName" placeholder="Nom du preset..." class="preset-input" />
+				<button id="savePreset" class="preset-btn">💾 Sauver</button>
+			</div>
+			
+			<div id="presetList" class="preset-list">
+				<!-- Presets will be dynamically added here -->
+			</div>
+		</section>
+	</aside>
+
+	<main>
+		<section class="machine-wrapper">
+			<div id="grid" class="diamond-grid" aria-label="Grille 6x6 de samples"></div>
+		</section>
+	</main>
+
+
+	<!-- Three.js for 3D BPM visualizer -->
+	<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>
