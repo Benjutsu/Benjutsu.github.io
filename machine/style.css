@@ -72,9 +72,9 @@ main { max-width:1100px; margin:0 auto; padding:1.5rem 1rem 3rem; }
 /* Pads */
 .pad { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:.65rem; font-weight:600; letter-spacing:.5px; border:1px solid var(--border); border-radius:10%; user-select:none; cursor:pointer; padding:.4rem .35rem; background:#182132; color:var(--text); transition: box-shadow .18s ease, background .22s ease, transform .12s ease; overflow:hidden; }
 .pad span { transform:rotate(-45deg); display:block; }
-.pad.drum { background:rgba(0,109,255,.55); }
+.pad.drum { background:rgba(0,109,255,.85); }
 .pad.sound { background:linear-gradient(160deg, var(--sound) 0%, var(--sound-light) 85%); color:#06283d; }
-.pad.bass { background:rgba(229,57,53,.75); }
+.pad.bass { background:rgba(229,57,53,.85); }
 .pad:hover { box-shadow:0 0 0 2px rgba(255,255,255,.25); }
 .pad.playing { outline:none; box-shadow:0 0 14px var(--neon, #fff), 0 0 34px var(--neon, #fff); animation: neonPulse .545s ease-in-out infinite; }
 .pad.playing.drum { --neon: var(--drum-comp); }
